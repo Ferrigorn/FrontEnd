@@ -2,6 +2,7 @@
 
 
 
+
 function sum(numberOne , numberTwo) {
   
   console.log(Math.max([numberOne], [numberTwo]))
