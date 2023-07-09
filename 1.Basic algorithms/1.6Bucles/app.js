@@ -24,3 +24,10 @@ for (let j = 0; j <= 9; j++) {
 
 //1.3
 
+for (let x = 9; x >= 0; x--) {
+    if (x > 0) {
+        console.log("intentando dormir 🐑")
+    } else {
+        console.log("Dormido!")
+    }
+}
