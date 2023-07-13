@@ -1,0 +1,26 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url(https://i0.wp.com/joeabercrombie.com/wp-content/uploads/2019/06/Blade-Itself-MMP-e1561643829174.jpg?resize=1440%2C1440&ssl=1);
+}
+.libros {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 300px;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.libros > img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    -webkit-box-shadow: 0px 0px 16px 4px rgba(0,0,0,0.06);
+    -moz-box-shadow: 0px 0px 16px 4px rgba(0,0,0,0.06);
+    box-shadow: 0px 0px 16px 4px rgba(0,0,0,0.06);
+}
+
