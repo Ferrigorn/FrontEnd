@@ -3,18 +3,12 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    transition-duration: 0.3s;
+    transition: transform 0.3s;
 }
 
-@keyframes cambiarTamaño {
-    from {
-        scale: 1;
-    }
-    to {
-        scale: 1.2;
-    }
-}
-button:hover {
+
+
+button {
   border-radius: 8px;
   border: none;
   background-color: #2563eb;
@@ -22,5 +16,9 @@ button:hover {
   font-size: 18px;
   padding: 16px 24px;
   text-align: center;
-  animation: cambiarTamaño 1.2 ease-in-out;
+  
+}
+
+button:hover {
+    transform: scale(1.2);
 }
