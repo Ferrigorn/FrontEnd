@@ -1,0 +1,44 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+div {
+    display: inline-block;
+    height: 40px;
+    width: 150px;
+    margin: 10px;
+    padding: 10px;
+    background-color: #e74c3c;
+   
+}
+
+p {
+    display: inline-block;
+    height: 40px;
+    width: 150px;
+    margin: 10px;
+    padding: 10px;
+    background-color: #9b59b6;
+   
+}
+
+span {
+    display: inline-flex;
+    height: 40px;
+    width: 150px;
+    margin: 10px;
+    padding: 10px;
+    background-color: #3498db;
+}
+
+a {
+    display: inline-flex;
+    height: 40px;
+    width: 150px;
+    margin: 10px;
+    padding: 10px;
+    background-color: #2ecc71;
+}
