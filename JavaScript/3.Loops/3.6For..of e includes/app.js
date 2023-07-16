@@ -11,3 +11,16 @@ const toys = [
 
 
 
+
+let palabraAEliminar = "gato"
+let newArray = []
+
+for (var toy of toys) {
+    if (toy["name"].includes(palabraAEliminar)) {
+        console.log("este valor:" + toy["name"] + ", contiene la palabra " + palabraAEliminar);
+    } else {
+        newArray.push(toy);
+    }
+}
+
+console.log(newArray);
