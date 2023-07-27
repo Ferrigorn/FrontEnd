@@ -24,5 +24,8 @@ export const initController = (pageRender) => {
         case "Quiz":
             PrintQuizGame();
             break;
+        case "Topo":
+            "Topo";
+            break;
     }
 }

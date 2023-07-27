@@ -1,4 +1,8 @@
-
+.juegoMemory {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 .memory-game {
   width: 100vw;
@@ -61,13 +65,20 @@
 
 #time {
   display: flex;
-  font-family: 'Grenze Gotisch', cursive;
   
-  background-color: black;
-  border-radius: 15%;
+  font-family: 'Grenze Gotisch', cursive;
+  justify-content: center;
+  align-items: center;
+  width:10rem;
+  height: 5rem;
+  background-color: #003f73;
+  border-radius: 50%;
   & h4{
     
     color: white;
+  }
+  & #Tiempo {
+    color: black;
   }
   
 }

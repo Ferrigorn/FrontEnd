@@ -17,9 +17,9 @@ const template = () => `
         </figure>
       </li>
       <li>
-        <figure>
+        <figure id="navQuiz">
           <img src="https://res.cloudinary.com/dyyzufpto/image/upload/v1690407451/Pq8tK2uaRpS7URF_o0ctsx.webp" alt="go to Game Quiz" />
-          <h2>Joc2</h2>
+          <h2>QUIZ</h2>
         </figure>
       </li>
     </ul>
@@ -34,6 +34,10 @@ const addEventListeners =()=>{
   const navMemory = document.getElementById("navMemory");
   navMemory.addEventListener("click", ()=>{
     initController("Memory")
+  })
+  const navQuiz = document.getElementById("navQuiz");
+  navQuiz.addEventListener("click", ()=>{
+    initController("Quiz")
   })
 }
 

@@ -32,7 +32,6 @@ const addListeners = () => {
 };
 
 export const Login = () => {
-  document.querySelector("nav").style.display = "none";
   document.querySelector("main").innerHTML = template();
   addListeners();
 };

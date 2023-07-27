@@ -1,6 +1,7 @@
 
 
 import { initController } from "../../utils/route";
+import { getUser } from "../GlobalState/GlobalState";
 import "./Header.css";
 
 
@@ -43,8 +44,17 @@ const addListeners = ()=>{
 
     const buttonLogout = document.getElementById("buttonLogout");
     buttonLogout.addEventListener("click", (e)=>{
-
+      const userState = getUser().name;
+      const currentUser = localStorage.getItem(userState);
+      const parseCurrentUser = JSON.parse(currentUser);
+      const updateUser = { ...parseCurrentUser, token: false };
+      const stringUpdateUser = JSON.stringify(updateUser);
+      localStorage.removeItem(userState);
+      sessionStorage.removeItem("currentUser");
+      localStorage.setItem(userState, stringUpdateUser);
+      initController("Login");
     });
+    
 
 };
 

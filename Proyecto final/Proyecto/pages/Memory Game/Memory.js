@@ -3,7 +3,7 @@ import JSConfetti from 'js-confetti'
 
 
 const template = () => ` 
- 
+ <div class="juegoMemory">
   <section class="memory-game">
     <div class="memory-card" id="chili">
       <img class="front-face" src="https://res.cloudinary.com/dyyzufpto/image/upload/v1690278186/chili_hayj9m.png" alt="Chili"/>
@@ -54,7 +54,8 @@ const template = () => `
       <img class="back-face" src="https://res.cloudinary.com/dyyzufpto/image/upload/v1690299410/why-bicycle-3-U7Y3JI45_cmjqgc.webp" alt="Pica"/>
     </div>
   </section>
-  <div id="time"></div>`;
+  <div id="time"> </div>
+  </div>`;
 
 let lockBoard = false;
 let contador = 0;
@@ -127,7 +128,7 @@ const addListeners = (cards) => {
 const time = () => {
   segundos--;
   const containerTime = document.getElementById("time");
-  const segundosTime = `<h4>${segundos}</h4>`;
+  const segundosTime = `<h4><span id="Tiempo">Tiempo: </span> ${segundos}</h4>`;
   containerTime.innerHTML = segundosTime;
   checkInterval();
 };
@@ -152,6 +153,7 @@ const checkInterval = () => {
       jsConfetti.addConfetti({
         emojis:["🥳"]
       });
+      //aquí un else if si se gana la partida¿?
     } else {
       const jsConfetti = new JSConfetti();
       jsConfetti.addConfetti({
@@ -166,7 +168,7 @@ const checkInterval = () => {
     reset.addEventListener("click", () => {
       contador = 0;
       ok = 0;
-      segundos = 60;
+      segundos = 40;
       document.querySelector("main").innerHTML = template();
       shuffle();
     })
