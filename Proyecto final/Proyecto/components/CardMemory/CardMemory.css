@@ -1,0 +1,9 @@
+
+.FaceCard, .BackCard {
+        width: 100px;
+        height: 100px;
+        background-image: 'https://res.cloudinary.com/dyyzufpto/image/upload/v1690299410/why-bicycle-3-U7Y3JI45_cmjqgc.webp';
+        background-color: chocolate;
+        border: solid 1px black;
+        
+}

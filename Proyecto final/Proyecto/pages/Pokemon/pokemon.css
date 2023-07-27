@@ -1,0 +1,42 @@
+#galleryPokemon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+#containerFilter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 1rem 0 1rem 0;
+  height: 100%;
+  padding: 1rem;
+  & #buttonBoxFilter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    width: 90vw;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1rem;
+  }
+  & #inputPokemon {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    height: 5vh;
+    padding: 1.5rem;
+    &:active {
+      border: 2px solid #740053 !important; 
+      color: #740053 !important;
+    }
+  }
+  & #restartButton {
+    height: 2rem;
+    width: 7rem;
+  }
+}

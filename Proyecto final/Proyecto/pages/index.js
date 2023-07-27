@@ -1,0 +1,5 @@
+export * from './Dashboard/dashboard'
+export * from './Pokemon/pokemon'
+export * from './Memory Game/Memory'
+export * from './Quiz/quiz'
+export * from './Login/login'

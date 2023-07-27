@@ -1,0 +1,6 @@
+export * from "./Header/Header"
+export * from "./Footer/Footer"
+export * from "./CardPokemon/CardsPokemon"
+export * from "./Spinner/Spinner"
+export * from "./ButtonFilter/ButtonFilter"
+export * from "./CardMemory/CardMemory"
