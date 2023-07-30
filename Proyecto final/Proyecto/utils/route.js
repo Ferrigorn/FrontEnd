@@ -1,5 +1,5 @@
 import { getUser } from "../components/GlobalState/GlobalState";
-import {  Login, PrintMemoryPage, PrintPokemonPage, PrintQuizGame, printTemplateDashboard,  } from "../pages";
+import {  Login, PrintMemoryPage, PrintPokemonPage, PrintQuizGame, PrintTopoPage, printTemplateDashboard,  } from "../pages";
 
 
 
@@ -25,7 +25,7 @@ export const initController = (pageRender) => {
             PrintQuizGame();
             break;
         case "Topo":
-            "Topo";
+            PrintTopoPage();
             break;
     }
 }

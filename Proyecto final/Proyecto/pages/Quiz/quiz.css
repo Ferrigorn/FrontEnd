@@ -1,2 +1,18 @@
+.quizgame {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   }
 
+#inicio {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    & h1 {
+        width:  ;
+    }
+}
   

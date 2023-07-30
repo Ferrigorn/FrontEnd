@@ -1,0 +1,38 @@
+#containerLogin {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40rem;
+    height: 30rem;
+    gap: 2rem;
+    background-color:  #450031;
+    border: solid 1px black;
+    border-radius: 40%;
+    & #titleLogin {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        width: 20vw;
+        height: 20vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: wheat;
+    }
+    & #username {
+        display: flex;
+        justify-content: center;
+        width: 15vw;
+        height: 5vh;
+        border-radius: 10%;
+    }
+    & #buttonLogin {
+        width: 15vw;
+        height: 5vh;
+        border-radius: 10%;
+        transition: ease-in-out 0.7s;
+        &:hover{
+            transform: scale(1.2);
+        }
+    }
+    
+}

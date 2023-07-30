@@ -1,4 +1,4 @@
-
+import "./quiz.css"
 
 const template = () => `
 <div class="quizgame">

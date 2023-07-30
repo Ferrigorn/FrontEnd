@@ -3,7 +3,7 @@ footer {
   height: 10vh;
   display: flex;
   justify-content: center;
-  background-color: #740053;
+  background-color: rgb(215,86,46);
   position: fixed;
   bottom: 0;
   & h3 {

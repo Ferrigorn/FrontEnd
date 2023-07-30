@@ -7,18 +7,18 @@ import "./Header.css";
 
 const template = () => `
   <img
-    src="https://www.svgrepo.com/show/154919/arcade.svg"
+    src="https://res.cloudinary.com/dyyzufpto/image/upload/c_thumb,w_490,h_490,g_auto/v1690716672/logo_new_140x_2x_tbezdx.avif"
     alt="Icono pagina"
     class="logo"
   />
   <nav>
     <img
-      src="https://www.freeiconspng.com/uploads/colors-icon-4.png"
+      src="https://res.cloudinary.com/dyyzufpto/image/upload/v1690717876/3963860_tqmgir.png"
       alt="change color"
       id="changeColor"
     />
     <img
-      src="https://www.svgrepo.com/show/260119/gamepad.svg"
+      src="https://res.cloudinary.com/dyyzufpto/image/upload/v1690716491/DGUN-2960-Super-GamePad_PR6_1024x1024_q7e4we.webp"
       alt="acces to play"
       id="buttonDashboard"
     />

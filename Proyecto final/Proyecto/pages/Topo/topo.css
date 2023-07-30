@@ -1,0 +1,26 @@
+.container {
+    width: 100vw;
+    height: 70vh;
+    display:flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.topogrid {
+   position: relative;
+   display: grid;
+   grid-template-columns: repeat(3, auto);
+}
+
+.hole {
+    width: 150px;
+    height: 150px;
+    background-color: rgb(113, 48, 15);
+    border: 1px solid black;
+}
+
+.mole{
+    background-image: url(https://res.cloudinary.com/dyyzufpto/image/upload/v1690618704/9676a10999f3a937b6ac56fc6d0df0bf_lsvmdb.png);
+    background-size: cover;
+}
