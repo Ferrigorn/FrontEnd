@@ -19,11 +19,11 @@ UserRoutes.post("/register", upload.single("image"), registerSlow);
 
 UserRoutes.post("/resend", resendCode);
 
-UserRoutes.post("login", login);
+UserRoutes.post("/login", login);
 
-UserRoutes.post("login/autologin", autoLogin);
+UserRoutes.post("/login/autologin", autoLogin);
 
-UserRoutes.patch("changepassword", [isAuth], modifyPassword);
+UserRoutes.patch("/changepassword", [isAuth], modifyPassword);
 
 UserRoutes.patch("/update/update", [isAuth], upload.single("image"), update);
 

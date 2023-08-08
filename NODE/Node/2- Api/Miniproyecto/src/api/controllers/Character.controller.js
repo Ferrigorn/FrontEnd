@@ -1,6 +1,7 @@
 const { deleteImgCloudinary } = require("../../middleware/files.middleware");
 const Character = require("../models/Character.model");
 
+
 const createCharacter = async (req, res, next) => {
   let catchImage = req.file?.path;
   try {

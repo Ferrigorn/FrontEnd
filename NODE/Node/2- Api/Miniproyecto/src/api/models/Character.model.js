@@ -7,7 +7,7 @@ const CharacterSchema = new Schema(
     name: { type: String, unique: true, require: true },
     gender: { type: String, enum: ["hombre", "mujer", "otros"], require: true },
     image: { type: String },
-    movies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Movies" }],
+    movies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Movie" }],
   },
   {
     timestamps: true,

@@ -1,12 +1,13 @@
 const mongoose = require("mongoose")
 
-const Schema = mongoose.Schema;
 
-const MovieSchema = new Schema(
+
+const MovieSchema = new mongoose.Schema(
     {
         title: {type: String, unique: true, require: true},
         duration: {type: Number},
-        image: {type: String}
+        characters: [{type: mongoose.Schema.Types.ObjectId, ref: "Character"}],
+        view: {type: Boolean, default: false},
     },
     {
         timestamps: true,
