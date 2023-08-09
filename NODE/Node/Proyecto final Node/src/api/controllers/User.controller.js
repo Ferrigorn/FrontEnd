@@ -7,6 +7,9 @@ dotenv.config();
 const nodemailer = require("nodemailer");
 const { generateToken } = require("../../utils/token");
 const randomPassword = require("../../utils/randomPassword");
+const Disorder = require("../models/Disorder.model");
+const Therapy = require("../models/Therapy.model");
+const validator = require("validator");
 
 //! Registro (SIGNIN)
 
@@ -38,7 +41,7 @@ const registerSlow = async (req, res, next) => {
         const userSave = await newUser.save();
 
         if (userSave) {
-          const emailEnv = process.env.EMAIL_ENV ;
+          const emailEnv = process.env.EMAIL_ENV;
           const password = process.env.PASSWORD_ENV;
 
           const transporter = nodemailer.createTransport({
@@ -53,7 +56,7 @@ const registerSlow = async (req, res, next) => {
             from: emailEnv,
             to: email,
             subject: "Confirmation code",
-            text: `tu codigo es ${confirmationCode}, gracias por confiar en nosotros ${name}`,
+            text: `tu codigo es ${confirmationCode}, gracias ${name}`,
           };
 
           transporter.sendMail(mailOptions, function (error, info) {
@@ -101,14 +104,14 @@ const checkNewUser = async (req, res, next) => {
 
           return res
             .status(200)
-            .json({ testCheckOk: updateUser.check == true ? true : false });
+            .json({ testCheckUser: updateUser.check == true ? true : false });
         } catch (error) {
           return res.status(404).json(error.message);
         }
       } else {
-        const deleteUser = await User.findByIdAndDelete(userExists._id);
+        await User.findByIdAndDelete(userExists._id);
         deleteImgCloudinary(userExists.image);
-        return res.status(200).json({
+        return res.status(404).json({
           userExists,
           check: false,
           delete: (await User.findById(userExists._id))
@@ -118,11 +121,11 @@ const checkNewUser = async (req, res, next) => {
       }
     }
   } catch (error) {
-    return next(setError(500, "General error check code"));
+    return next(setError(500, error.message));
   }
 };
 
-//! Resend codeconfirmation user nuevo ?¿¿?¿?
+//! Resend codeconfirmation user nuevo
 
 const resendCode = async (req, res, next) => {
   try {
@@ -190,7 +193,7 @@ const autoLogin = async (req, res, next) => {
     const userDB = await User.findOne({ email });
 
     if (userDB) {
-      if (password == userDB.password) {
+      if (password === userDB.password) {
         const token = generateToken(userDB._id, email);
         return res.status(200).json({
           user: userDB,
@@ -212,7 +215,8 @@ const autoLogin = async (req, res, next) => {
 const sendPassword = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const userDb = await User.findById(id);
+    const userDB = await User.findById(id);
+    const passwordSecure = randomPassword();
 
     const email = process.env.EMAIL_ENV;
     const password = process.env.PASSWORD_ENV;
@@ -221,20 +225,17 @@ const sendPassword = async (req, res, next) => {
       auth: { user: email, pass: password },
     });
 
-    let passwordSecure = randomPassword();
-    console.log(passwordSecure);
-
     const mailOptions = {
       from: email,
-      to: userDb.email,
-      subject: "-----",
-      text: `User: ${userDb.name}. Your new code login is ${passwordSecure}. Si usted no ha requerido el cambio de password pongase en contacto con nosotros`,
+      to: userDB.email,
+      subject: "Nueva Con",
+      text: `User: ${userDB.name}. Your new code login is ${passwordSecure}. Si usted no ha requerido el cambio de password pongase en contacto con nosotros`,
     };
 
     transporter.sendMail(mailOptions, async function (error, info) {
       if (error) {
         console.log(error);
-        return res.status(404).json("Dont send email ann dont update user");
+        return res.status(404).json("Dont send email and dont update user");
       } else {
         console.log("Email sent: " + info.response);
         const newPasswordBcrypt = bcrypt.hashSync(passwordSecure, 10);
@@ -266,25 +267,31 @@ const sendPassword = async (req, res, next) => {
 const modifyPassword = async (req, res, next) => {
   try {
     const { password, newPassword } = req.body;
-    const { _id } = req.user;
 
-    if (bcrypt.compareSync(password, req.user.password)) {
-      const newPasswordHashed = bcrypt.hashSync(newPassword, 10);
-      try {
-        await User.findByIdAndUpdate(_id, { password: newPasswordHashed });
+    const validado = validator.isStrongPassword(newPassword);
+    if (validado) {
+      const { _id } = req.user;
 
-        const userUpdate = await User.findById(_id);
+      if (bcrypt.compareSync(password, req.user.password)) {
+        const newPasswordHashed = bcrypt.hashSync(newPassword, 10);
+        try {
+          await User.findByIdAndUpdate(_id, { password: newPasswordHashed });
 
-        if (bcrypt.compareSync(newPassword, userUpdate.password)) {
-          return res.status(200).json({ updateUser: true });
-        } else {
-          return res.status(200).json({ updateUser: false });
+          const userUpdate = await User.findById(_id);
+
+          if (bcrypt.compareSync(newPassword, userUpdate.password)) {
+            return res.status(200).json({ updateUser: true });
+          } else {
+            return res.status(200).json({ updateUser: false });
+          }
+        } catch (error) {
+          return res.status(404).json(error.message);
         }
-      } catch (error) {
-        return res.status(404).json(error.message);
+      } else {
+        return res.status(404).json("password dont match");
       }
     } else {
-      return res.status(404).json("password dont match");
+      return res.status(404).json("password not valid");
     }
   } catch (error) {
     return next(error);
@@ -296,7 +303,10 @@ const modifyPassword = async (req, res, next) => {
 const update = async (req, res, next) => {
   let catchImg = req.file?.path;
   try {
+    await User.syncIndexes();
+
     const patchUser = new User(req.body);
+
     if (req.file) {
       patchUser.image = req.file.path;
     }
@@ -313,12 +323,17 @@ const update = async (req, res, next) => {
         deleteImgCloudinary(req.user.image);
       }
       const updateUser = await User.findById(req.user._id);
-      const upDateKeys = Object.keys(req.body);
-      const testUpdate = [];
 
-      upDateKeys.forEach((item) => {
+      const updateKeys = Object.keys(req.body);
+
+      const testUpdate = [];
+      updateKeys.forEach((item) => {
         if (updateUser[item] == req.body[item]) {
-          testUpdate.push({ [item]: true });
+          if (updateUser[item] != req.user[item]) {
+            testUpdate.push({ [item]: true });
+          } else {
+            testUpdate.push({ [item]: "Misma información" });
+          }
         } else {
           testUpdate.push({
             [item]: false,
@@ -327,21 +342,23 @@ const update = async (req, res, next) => {
       });
 
       if (req.file) {
-        updateUser.image == req.file.path
+        updateUser.image == catchImg
           ? testUpdate.push({ file: true })
           : testUpdate.push({ file: false });
       }
-      return res.status(200).json({ testUpdate });
+      return res.status(200).json({ testUpdate, updateUser });
     } catch (error) {
       return res.status(404).json(error.message);
     }
   } catch (error) {
-    if (req.file) {
-      deleteImgCloudinary(catchImg);
-    }
     return next(error);
   }
 };
+
+//! Add Disorder Has
+
+
+//! Add Fav Therapies
 
 //! Delete user
 

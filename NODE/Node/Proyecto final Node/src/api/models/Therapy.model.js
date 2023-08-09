@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const TherapySchema = new mongoose.Schema(
     {
         name: {type: String, unique: true, require: true},
-
+        image: {type: String},
         disorders: [{type: mongoose.Schema.Types.ObjectId, ref: "Disorder"}],
     },
     {

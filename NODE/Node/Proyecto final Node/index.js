@@ -24,8 +24,12 @@ app.use(express.urlencoded({ limit: "5mb", extended: false }));
 
 //Rutas
 const UserRoutes = require("./src/api/routes/user.routes");
+const DisorderRoutes = require("./src/api/routes/disorder.routes");
+const TherapyRoutes = require("./src/api/routes/therapy.routes");
 
 
+app.use("/api/v1/therapies", TherapyRoutes);
+app.use("/api/v1/disorders", DisorderRoutes);
 app.use("/api/v1/users", UserRoutes);
 
 

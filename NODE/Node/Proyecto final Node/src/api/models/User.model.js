@@ -17,17 +17,18 @@ const UserSchema = new mongoose.Schema(
       required: true,
       trim: true,
       validate: [validator.isStrongPassword],
-      minlength: [8, "Min 8 characters"],
     },
     gender: {
       type: String,
       enum: ["hombre", "mujer", "otros"],
       required: true,
     },
-    rol: { type: String, enum: ["admin", "user"], required: true },
+    rol: { type: String, enum: ["admin", "user"], default: "user", },
     confirmationCode: { type: Number },
     check: { type: Boolean, default: false },
     image: { type: String },
+    disordersHas: [{type: mongoose.Schema.Types.ObjectId, ref: "Disorder"}],
+    therapiesFav: [{type: mongoose.Schema.Types.ObjectId, ref: "Therapy"}]
   },
   {
     timestamps: true,
@@ -35,12 +36,12 @@ const UserSchema = new mongoose.Schema(
 );
 
 UserSchema.pre("save", async function (next) {
-    try {
-        this.password = await bcrypt.hash(this.password, 10);
-        next();
-    } catch (error) {
-        next("Error hashing password", error);
-    }
+  try {
+    this.password = await bcrypt.hash(this.password, 10);
+    next();
+  } catch (error) {
+    next("Error hashing password", error);
+  }
 });
 
 const User = mongoose.model("User", UserSchema);
