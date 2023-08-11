@@ -1,14 +1,21 @@
 const mongoose = require("mongoose");
 
 const TherapySchema = new mongoose.Schema(
-    {
-        name: {type: String, unique: true, require: true},
-        image: {type: String},
-        disorders: [{type: mongoose.Schema.Types.ObjectId, ref: "Disorder"}],
+  {
+    name: { type: String, unique: true, require: true },
+    duration: { type: Number, require: true },
+    tipos: { type: String, enum: ["manual", "material", "ambas"] },
+    image: { type: String },
+    disorders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Disorder" }],
+    userFav: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "User",
+      default: [],
     },
-    {
-        timestamps: true,
-    }
+  },
+  {
+    timestamps: true,
+  }
 );
 
 const Therapy = mongoose.model("Therapy", TherapySchema);

@@ -97,7 +97,7 @@ const checkNewUser = async (req, res, next) => {
     if (!userExists) {
       return res.status(404).json("User not found");
     } else {
-      if (confirmationCode === userExists.confirmationCode) {
+      if (userExists.confirmationCode === confirmationCode) {
         try {
           await userExists.updateOne({ check: true });
           const updateUser = await User.findOne({ email });
@@ -212,6 +212,24 @@ const autoLogin = async (req, res, next) => {
 
 //! Cambio contraseña antes de login
 
+const changePassword = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const userDB = await User.findOne({ email });
+
+    if (userDB) {
+      return res.redirect(
+        307,
+        `http://localhost:8080/api/v1/users/sendPassword/${userDB._id}`
+      );
+    } else {
+      return res.status(404).json('User no register');
+    }
+  } catch (error) {
+    return next(error);
+  }
+};
+
 const sendPassword = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -269,8 +287,9 @@ const modifyPassword = async (req, res, next) => {
     const { password, newPassword } = req.body;
 
     const validado = validator.isStrongPassword(newPassword);
+    const { _id } = req.user;
     if (validado) {
-      const { _id } = req.user;
+      
 
       if (bcrypt.compareSync(password, req.user.password)) {
         const newPasswordHashed = bcrypt.hashSync(newPassword, 10);
@@ -308,7 +327,7 @@ const update = async (req, res, next) => {
     const patchUser = new User(req.body);
 
     if (req.file) {
-      patchUser.image = req.file.path;
+      patchUser.image = catchImg;
     }
     patchUser._id = req.user._id;
     patchUser.password = req.user.password;
@@ -319,9 +338,8 @@ const update = async (req, res, next) => {
 
     try {
       await User.findByIdAndUpdate(req.user._id, patchUser);
-      if (req.file) {
-        deleteImgCloudinary(req.user.image);
-      }
+      if (req.file)  deleteImgCloudinary(req.user.image);
+      
       const updateUser = await User.findById(req.user._id);
 
       const updateKeys = Object.keys(req.body);
@@ -357,8 +375,131 @@ const update = async (req, res, next) => {
 
 //! Add Disorder Has
 
+const addHasDisorder = async (req, res, next) => {
+  try {
+    const { _id } = req.user;
+    const { disorders } = req.body;
+    const arrayDisorders = disorders.split(",");
+    arrayDisorders.forEach(async (element) => {
+      if (req.user.disordersHas.includes(element)) {
+        try {
+          await User.findByIdAndUpdate(_id, {
+            $pull: { disordersHas: element },
+          });
+          try {
+            await Disorder.findByIdAndUpdate(element, {
+              $pull: { userFav: _id },
+            });
+          } catch (error) {
+            return res.status(404).json({
+              error: "Error updating pull id User in disorder model",
+              message: error.message,
+            });
+          }
+        } catch (error) {
+          return res.status(404).json({
+            error: "Error updating pull disorder",
+            element,
+            message: error.message,
+          });
+        }
+      } else {
+        try {
+          await User.findByIdAndUpdate(_id, {
+            $push: { disordersHas: element },
+          });
+          try {
+            await Disorder.findByIdAndUpdate(element, {
+              $push: { userFav: _id },
+            });
+          } catch (error) {
+            return res.status(404).json({
+              error: "Error updating push id User in disorder model",
+              message: error.message,
+            });
+          }
+        } catch (error) {
+          return res.status(404).json({
+            error: "Error updating push disorder",
+            element,
+            message: error.message,
+          });
+        }
+      }
+    });
+    setTimeout(async () => {
+      return res
+        .status(200)
+        .json(await User.findById(_id).populate("disordersHas"));
+    }, 100);
+  } catch (error) {
+    return next(error);
+  }
+};
 
 //! Add Fav Therapies
+
+const addFavTherapy = async (req, res, next) => {
+  try {
+    const { _id } = req.user;
+    const { therapies } = req.body;
+    const arrayTherapy = therapies.split(",");
+    arrayTherapy.forEach(async (element) => {
+      if (req.user.therapiesFav.includes(element)) {
+        try {
+          await User.findByIdAndUpdate(_id, {
+            $pull: { therapiesFav: element },
+          });
+          try {
+            await Therapy.findByIdAndUpdate(element, {
+              $pull: { userFav: _id },
+            });
+          } catch (error) {
+            return res.status(404).json({
+              error: "Error updating pull id User in Therapy model",
+              message: error.message,
+            });
+          }
+        } catch (error) {
+          return res.status(404).json({
+            error: "Error updating pull therapy",
+            element,
+            message: error.message,
+          });
+        }
+      } else {
+        try {
+          await User.findByIdAndUpdate(_id, {
+            $push: { therapiesFav: element },
+          });
+          try {
+            await Therapy.findByIdAndUpdate(element, {
+              $push: { userFav: _id },
+            });
+          } catch (error) {
+            return res.status(404).json({
+              error: "Error updating push id User in therapy model",
+              message: error.message,
+            });
+          }
+        } catch (error) {
+          return res.status(404).json({
+            error: "Error updating push therapy",
+            element,
+            message: error.message,
+          });
+        }
+      }
+    });
+    setTimeout(async () => {
+      return res
+        .status(200)
+        .json(await User.findById(_id).populate("therapiesFav"));
+    }, 100);
+  } catch (error) {
+    return next(error);
+  }
+};
 
 //! Delete user
 
@@ -366,12 +507,27 @@ const deleteUser = async (req, res, next) => {
   try {
     const { _id, image } = req.user;
     await User.findByIdAndDelete(_id);
-    if (await User.findById(_id)) {
-      return res.status(404).json("Dont delete");
-    } else {
-      deleteImgCloudinary(image);
-      return res.status(200).json("ok delete");
+    try {
+      await Therapy.updateMany({ userFav: _id }, { $pull: { userFav: _id } });
+      try {
+        Disorder.updateMany({ userFav: _id }, { $pull: { userFav: _id } });
+        return res
+          .status(404)
+          .json({ testDeleteOk: (await User.findById(_id)) ? false : true });
+      } catch (error) {
+        return res
+          .status(404)
+          .json("Error deleting in Disorder model", error.message);
+      }
+    } catch (error) {
+      return res.status(404).json("Error deleting in Therapy", error.message);
     }
+    // if (await User.findById(_id)) {
+    //   return res.status(404).json("Dont delete");
+    // } else {
+    //   deleteImgCloudinary(image);
+    //   return res.status(200).json("ok delete");
+    // }
   } catch (error) {
     return next(error);
   }
@@ -385,8 +541,11 @@ module.exports = {
   deleteUser,
   update,
   modifyPassword,
+  changePassword,
   sendPassword,
   autoLogin,
   login,
   resendCode,
+  addFavTherapy,
+  addHasDisorder,
 };

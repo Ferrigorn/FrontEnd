@@ -4,12 +4,15 @@ const {
   registerSlow,
   login,
   sendPassword,
+  changePassword,
   modifyPassword,
   update,
   checkNewUser,
   deleteUser,
   resendCode,
   autoLogin,
+  addFavTherapy,
+  addHasDisorder
 } = require("../controllers/User.controller");
 
 const express = require("express");
@@ -27,9 +30,15 @@ UserRoutes.patch("/changepassword", [isAuth], modifyPassword);
 
 UserRoutes.patch("/update/update", [isAuth], upload.single("image"), update);
 
-UserRoutes.delete("/", [isAuth], deleteUser);
+UserRoutes.patch("/addFavTherapy", [isAuth], addFavTherapy);
+
+UserRoutes.patch("/addHasDisorder", [isAuth], addHasDisorder);
+
+UserRoutes.delete("/:id", [isAuth], deleteUser);
 
 UserRoutes.patch("/sendPassword/:id", sendPassword);
+
+UserRoutes.patch("/forgotpassword/forgotpassword", changePassword);
 
 UserRoutes.post("/check", checkNewUser);
 
