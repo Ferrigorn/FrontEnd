@@ -309,6 +309,7 @@ module.exports = {
   getAll,
   getById,
   getByName,
+  addTherapy,
   changeChronic,
   updateDisorder,
   deleteDisorder,

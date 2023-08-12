@@ -201,14 +201,12 @@ const addDisorder = async (req, res, next) => {
       });
 
       setTimeout(async () => {
-        return res
-          .status(200)
-          .json({
-            update: await Therapy.findById(id).populate({
-              path: "disorders",
-              populate: { path: "therapies" },
-            }),
-          });
+        return res.status(200).json({
+          update: await Therapy.findById(id).populate({
+            path: "disorders",
+            populate: { path: "therapies" },
+          }),
+        });
       }, 500);
     } else {
       return res.status(404).json("Therapy not found");
@@ -292,11 +290,21 @@ const erroresSolve = async (req, res, next) => {
         return res.status(404).json({ message: error.message, idTherapy: id });
       }
     } catch (error) {
-        return res.status(404).json({ message: error.message, idTherapy: id})
+      return res.status(404).json({ message: error.message, idTherapy: id });
     }
   } catch (error) {
-    return next({ message: error.message, idTherapy: id})
+    return next({ message: error.message, idTherapy: id });
   }
 };
 
-module.exports = {createTherapy, getById, getByName, getAll, therapyByTipo, updateTherapy, deleteTherapy, erroresSolve}
+module.exports = {
+  createTherapy,
+  getById,
+  getByName,
+  getAll,
+  therapyByTipo,
+  addDisorder,
+  updateTherapy,
+  deleteTherapy,
+  erroresSolve,
+};

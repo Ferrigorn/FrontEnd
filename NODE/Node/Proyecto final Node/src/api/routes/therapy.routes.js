@@ -8,6 +8,7 @@ const {
   deleteTherapy,
   therapyByTipo,
   erroresSolve,
+  addDisorder,
 } = require("../controllers/Therapy.controller");
 const express = require("express");
 
@@ -18,6 +19,7 @@ TherapyRoutes.get("/:id", getById);
 TherapyRoutes.get("/", getAll);
 TherapyRoutes.get("/getbyname/name", getByName);
 TherapyRoutes.get("/getbytipo/tipo", therapyByTipo);
+TherapyRoutes.patch("/add/:id", addDisorder)
 TherapyRoutes.patch("/update/:id", upload.single("image"), updateTherapy);
 TherapyRoutes.delete("/delete/:id", deleteTherapy);
 TherapyRoutes.patch("error/:id", erroresSolve);
