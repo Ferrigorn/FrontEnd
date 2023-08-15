@@ -78,19 +78,46 @@ const getByName = async (req, res, next) => {
 
 // Get by tipo
 
-const therapyByTipo = async (req, res, next) => {
+// const therapyByTipo = async (req, res, next) => {
+//   try {
+//     const { tipos } = req.query;
+//     const therapyByType = await Therapy.find({ tipos });
+//     if (therapyByType.length > 0) {
+//       return res.status(200).json({ data: therapyByType });
+//     } else {
+//       res.status(404).json("Tipo de terapia no encontrado");
+//     }
+//   } catch (error) {
+//     return next(error);
+//   }
+// };
+
+// Get by price
+
+const therapyByPrice = async (req, res, next) => {
   try {
-    const { tipos } = req.query;
-    const therapyByType = await Therapy.find({ tipos });
-    if (therapyByType.length > 0) {
-      return res.status(200).json({ data: therapyByType });
-    } else {
-      res.status(404).json("Tipo de terapia no encontrado");
-    }
+    const priceParam  = req.params.price;
+    console.log(req.params.price)
+    const therapyPrecio = await Therapy.find();
+    const therapyFiltered = therapyPrecio.filter((element) => element.price <= Number(priceParam));
+      return res.status(200).json(therapyFiltered)
   } catch (error) {
-    return next(error);
+    return res.status(404).json("No hay terapias de ese precio")
   }
 };
+
+// Terapias con mas usuarios
+
+const therapiesTop3 = async (req, res, next) => {
+  try {
+    const terapiasOrdened = await Therapy.find();
+    terapiasOrdened.sort((a, b) => b.userFav.length - a.userFav.length);
+    const terapiasFav3 = terapiasOrdened.slice(0, 3);
+    return res.status(200).json(terapiasFav3)
+  } catch (error) {
+    return res.status(404).json("Error en adquirir top3")
+  }
+}
 
 //Update
 
@@ -302,9 +329,11 @@ module.exports = {
   getById,
   getByName,
   getAll,
-  therapyByTipo,
+  // therapyByTipo,
   addDisorder,
   updateTherapy,
   deleteTherapy,
   erroresSolve,
+  therapyByPrice,
+  therapiesTop3,
 };

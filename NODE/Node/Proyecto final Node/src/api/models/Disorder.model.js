@@ -6,6 +6,8 @@ const DisorderSchema = new mongoose.Schema(
     tipo: { type: String, enum: ["Dolor", "Estres", "Enfermedad", "Estetica", "Rehabilitacion"], require: true },
     chronic: {type: Boolean},
     therapies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Therapy" }],
+    //ordenar de mayor a menor en funcion de los usuarios que los tengan
+    //que desordenes tienen mas terapias
     userFav: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: "User",

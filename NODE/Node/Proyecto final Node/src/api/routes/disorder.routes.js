@@ -9,6 +9,8 @@ const {
   deleteDisorder,
   erroresSolve,
   addTherapy,
+  disorderMasPosTer,
+  disordersMuchPopular,
 } = require("../controllers/Disorder.controller");
 const express = require("express");
 
@@ -23,6 +25,7 @@ DisorderRoutes.patch("/change/chronic/:id", changeChronic);
 DisorderRoutes.patch("/update/:id", upload.single("image", updateDisorder));
 DisorderRoutes.delete("/delete/:id", deleteDisorder);
 DisorderRoutes.patch("error/:id", erroresSolve);
-
+DisorderRoutes.get("/disordersmast", disorderMasPosTer);
+DisorderRoutes.get("/disordersusers", disordersMuchPopular)
 
 module.exports = DisorderRoutes;

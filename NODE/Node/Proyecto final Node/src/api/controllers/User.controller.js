@@ -223,7 +223,7 @@ const changePassword = async (req, res, next) => {
         `http://localhost:8080/api/v1/users/sendPassword/${userDB._id}`
       );
     } else {
-      return res.status(404).json('User no register');
+      return res.status(404).json("User no register");
     }
   } catch (error) {
     return next(error);
@@ -289,8 +289,6 @@ const modifyPassword = async (req, res, next) => {
     const validado = validator.isStrongPassword(newPassword);
     const { _id } = req.user;
     if (validado) {
-      
-
       if (bcrypt.compareSync(password, req.user.password)) {
         const newPasswordHashed = bcrypt.hashSync(newPassword, 10);
         try {
@@ -338,8 +336,8 @@ const update = async (req, res, next) => {
 
     try {
       await User.findByIdAndUpdate(req.user._id, patchUser);
-      if (req.file)  deleteImgCloudinary(req.user.image);
-      
+      if (req.file) deleteImgCloudinary(req.user.image);
+
       const updateUser = await User.findById(req.user._id);
 
       const updateKeys = Object.keys(req.body);
@@ -501,6 +499,35 @@ const addFavTherapy = async (req, res, next) => {
   }
 };
 
+// Que usuarios tienen mas o menos desordenes
+
+const numbDisorders = async (req, res, next) => {
+  try {
+    const userMoreDisorder = await User.find();
+    userMoreDisorder.sort(
+      (a, b) => b.disordersHas.length - a.disordersHas.length
+    );
+    return res.status(200).json(userMoreDisorder);
+  } catch (error) {
+    return res.status(404).json("Error encntrando disorders de user");
+  }
+};
+
+// Que terapias son las mas elegidas por los usuarios
+
+const therapies5Fav = async (req, res, next) => {
+  try {
+    const favTherapyOrdened = await User.find();
+    favTherapyOrdened.sort(
+      (a, b) => b.therapiesFav.length - a.therapiesFav.length
+    );
+    const top5Terapies = favTherapyOrdened.slice(0, 5);
+    return res.status(200).json(top5Terapies)
+  } catch (error) {
+    return res.status(404).json("Error adquiriendo top3 terapias")
+  }
+};
+
 //! Delete user
 
 const deleteUser = async (req, res, next) => {
@@ -548,4 +575,6 @@ module.exports = {
   resendCode,
   addFavTherapy,
   addHasDisorder,
+  numbDisorders,
+  therapies5Fav
 };

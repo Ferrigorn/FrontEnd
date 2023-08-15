@@ -12,7 +12,9 @@ const {
   resendCode,
   autoLogin,
   addFavTherapy,
-  addHasDisorder
+  addHasDisorder,
+  numbDisorders,
+  therapies5Fav
 } = require("../controllers/User.controller");
 
 const express = require("express");
@@ -41,6 +43,10 @@ UserRoutes.patch("/sendPassword/:id", sendPassword);
 UserRoutes.patch("/forgotpassword/forgotpassword", changePassword);
 
 UserRoutes.post("/check", checkNewUser);
+
+UserRoutes.get("/moredisorders", numbDisorders)
+
+UserRoutes.get("/top5terapias", therapies5Fav)
 
 
 module.exports = UserRoutes;

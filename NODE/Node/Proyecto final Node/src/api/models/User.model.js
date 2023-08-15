@@ -27,7 +27,9 @@ const UserSchema = new mongoose.Schema(
     confirmationCode: { type: Number },
     check: { type: Boolean, default: false },
     image: { type: String },
+    //que usuarios tienen mas desordenes o menos
     disordersHas: [{type: mongoose.Schema.Types.ObjectId, ref: "Disorder"}],
+    //que usuario tiene mas terapias de mayor a menor
     therapiesFav: [{type: mongoose.Schema.Types.ObjectId, ref: "Therapy"}]
   },
   {

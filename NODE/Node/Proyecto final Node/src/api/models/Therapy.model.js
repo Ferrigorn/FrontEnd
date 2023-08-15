@@ -4,6 +4,7 @@ const TherapySchema = new mongoose.Schema(
   {
     name: { type: String, unique: true, require: true },
     duration: { type: Number, require: true },
+    price: {type: Number},
     tipos: { type: String, enum: ["manual", "material", "ambas"] },
     image: { type: String },
     disorders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Disorder" }],

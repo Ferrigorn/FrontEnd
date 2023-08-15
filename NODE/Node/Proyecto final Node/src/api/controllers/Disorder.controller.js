@@ -101,6 +101,31 @@ const changeChronic = async (req, res, next) => {
   }
 };
 
+//Desordenes con mas posibles terapias
+const disorderMasPosTer = async (req, res, next) => {
+  try {
+    const disordeMoreTherapies = await Disorder.find();
+    disordeMoreTherapies.sort(
+      (a, b) => b.therapies.length - a.therapies.length
+    );
+   return res.status(200).json(disordeMoreTherapies)
+  } catch (error) {
+   return res.status(404).json("Error al ordenar disorders")
+  }
+
+};
+//Desordenes ordenados de mayor a menor segun los usuarios que los padezcan
+
+const disordersMuchPopular = async (req, res, next) => {
+  try {
+    const disorderMasUser = await Disorder.find();
+    disorderMasUser.sort((a, b) => b.userFav.length - a.userFav.length);
+    return res.status(200).json(disorderMasUser)
+  } catch (error) {
+    return res.status(404).json("Error Ordenando disorders")
+  }
+}
+
 // Update
 
 const updateDisorder = async (req, res, next) => {
@@ -209,14 +234,12 @@ const addTherapy = async (req, res, next) => {
       });
 
       setTimeout(async () => {
-        return res
-          .status(200)
-          .json({
-            update: await Disorder.findById(id).populate({
-              path: "therapies",
-              populate: { path: "disorders" },
-            }),
-          });
+        return res.status(200).json({
+          update: await Disorder.findById(id).populate({
+            path: "therapies",
+            populate: { path: "disorders" },
+          }),
+        });
       }, 500);
     } else {
       return res.status(404).json("Disorder not found");
@@ -314,4 +337,6 @@ module.exports = {
   updateDisorder,
   deleteDisorder,
   erroresSolve,
+  disorderMasPosTer,
+  disordersMuchPopular,
 };
