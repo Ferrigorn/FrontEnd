@@ -23,18 +23,18 @@ const UserSchema = new mongoose.Schema(
       enum: ["hombre", "mujer", "otros"],
       required: true,
     },
-    rol: { type: String, enum: ["admin", "user"], default: "user", },
+    rol: { type: String, enum: ["admin", "user"], default: "user" },
     confirmationCode: { type: Number },
     check: { type: Boolean, default: false },
     image: { type: String },
     //que usuarios tienen mas desordenes o menos
-    disordersHas: [{type: mongoose.Schema.Types.ObjectId, ref: "Disorder"}],
+    disordersHas: [{ type: mongoose.Schema.Types.ObjectId, ref: "Disorder" }],
     //que usuario tiene mas terapias de mayor a menor
-    therapiesFav: [{type: mongoose.Schema.Types.ObjectId, ref: "Therapy"}]
+    therapiesFav: [{ type: mongoose.Schema.Types.ObjectId, ref: "Therapy" }],
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 UserSchema.pre("save", async function (next) {

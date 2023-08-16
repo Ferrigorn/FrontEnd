@@ -102,29 +102,30 @@ const changeChronic = async (req, res, next) => {
 };
 
 //Desordenes con mas posibles terapias
+// eslint-disable-next-line no-unused-vars
 const disorderMasPosTer = async (req, res, next) => {
   try {
     const disordeMoreTherapies = await Disorder.find();
     disordeMoreTherapies.sort(
-      (a, b) => b.therapies.length - a.therapies.length
+      (a, b) => b.therapies.length - a.therapies.length,
     );
-   return res.status(200).json(disordeMoreTherapies)
+    return res.status(200).json(disordeMoreTherapies);
   } catch (error) {
-   return res.status(404).json("Error al ordenar disorders")
+    return res.status(404).json("Error al ordenar disorders");
   }
-
 };
 //Desordenes ordenados de mayor a menor segun los usuarios que los padezcan
 
+// eslint-disable-next-line no-unused-vars
 const disordersMuchPopular = async (req, res, next) => {
   try {
     const disorderMasUser = await Disorder.find();
     disorderMasUser.sort((a, b) => b.userFav.length - a.userFav.length);
-    return res.status(200).json(disorderMasUser)
+    return res.status(200).json(disorderMasUser);
   } catch (error) {
-    return res.status(404).json("Error Ordenando disorders")
+    return res.status(404).json("Error Ordenando disorders");
   }
-}
+};
 
 // Update
 
@@ -259,14 +260,14 @@ const deleteDisorder = async (req, res, next) => {
     try {
       const test = await Therapy.updateMany(
         { disorders: id },
-        { $pull: { disordersHas: id } }
+        { $pull: { disordersHas: id } },
       );
 
       if (test.modifiedCount === test.matchedCount) {
         try {
           const testUser = await User.updateMany(
             { disordersHas: id },
-            { $pull: { disordersHas: id } }
+            { $pull: { disordersHas: id } },
           );
           if (testUser.modifiedCount === testUser.matchedCount) {
             return res.status(200).json({
@@ -313,7 +314,7 @@ const erroresSolve = async (req, res, next) => {
       try {
         await User.updateMany(
           { disordersHas: id },
-          { $pull: { disordersHas: id } }
+          { $pull: { disordersHas: id } },
         );
         return res.status(200).json("Error solved");
       } catch (error) {

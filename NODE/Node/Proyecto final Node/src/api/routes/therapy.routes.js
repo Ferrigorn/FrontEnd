@@ -22,11 +22,11 @@ TherapyRoutes.get("/:id", getById);
 TherapyRoutes.get("/", getAll);
 TherapyRoutes.get("/getbyname/name", getByName);
 // TherapyRoutes.get("/getbytipo/tipo", therapyByTipo);
-TherapyRoutes.patch("/add/:id", addDisorder)
+TherapyRoutes.patch("/add/:id", addDisorder);
 TherapyRoutes.patch("/update/:id", upload.single("image"), updateTherapy);
-TherapyRoutes.delete("/delete/:id", [isAuthAdmin], deleteTherapy); 
+TherapyRoutes.delete("/delete/:id", [isAuthAdmin], deleteTherapy);
 TherapyRoutes.patch("error/:id", erroresSolve);
 TherapyRoutes.get("/getbyprice/:price", therapyByPrice);
-TherapyRoutes.get("/gettherapies/top3", therapiesTop3)
+TherapyRoutes.get("/gettherapies/top3", therapiesTop3);
 
 module.exports = TherapyRoutes;

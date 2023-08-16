@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const { deleteImgCloudinary } = require("../../middleware/files.middleware");
 const Disorder = require("../models/Disorder.model");
 const Therapy = require("../models/Therapy.model");
@@ -96,13 +97,15 @@ const getByName = async (req, res, next) => {
 
 const therapyByPrice = async (req, res, next) => {
   try {
-    const priceParam  = req.params.price;
-    console.log(req.params.price)
+    const priceParam = req.params.price;
+    console.log(req.params.price);
     const therapyPrecio = await Therapy.find();
-    const therapyFiltered = therapyPrecio.filter((element) => element.price <= Number(priceParam));
-      return res.status(200).json(therapyFiltered)
+    const therapyFiltered = therapyPrecio.filter(
+      (element) => element.price <= Number(priceParam),
+    );
+    return res.status(200).json(therapyFiltered);
   } catch (error) {
-    return res.status(404).json("No hay terapias de ese precio")
+    return res.status(404).json("No hay terapias de ese precio");
   }
 };
 
@@ -113,11 +116,11 @@ const therapiesTop3 = async (req, res, next) => {
     const terapiasOrdened = await Therapy.find();
     terapiasOrdened.sort((a, b) => b.userFav.length - a.userFav.length);
     const terapiasFav3 = terapiasOrdened.slice(0, 3);
-    return res.status(200).json(terapiasFav3)
+    return res.status(200).json(terapiasFav3);
   } catch (error) {
-    return res.status(404).json("Error en adquirir top3")
+    return res.status(404).json("Error en adquirir top3");
   }
-}
+};
 
 //Update
 
@@ -253,14 +256,14 @@ const deleteTherapy = async (req, res, next) => {
     try {
       const test = await Disorder.updateMany(
         { therapies: id },
-        { $pull: { therapiesFav: id } }
+        { $pull: { therapiesFav: id } },
       );
 
       if (test.modifiedCount === test.matchedCount) {
         try {
           const testUser = await User.updateMany(
             { therapiesFav: id },
-            { $pull: { therapiesFav: id } }
+            { $pull: { therapiesFav: id } },
           );
           if (testUser.modifiedCount === testUser.matchedCount) {
             return res.status(200).json({
@@ -305,12 +308,12 @@ const erroresSolve = async (req, res, next) => {
     try {
       await Disorder.updateMany(
         { therapies: id },
-        { $pull: { therapies: id } }
+        { $pull: { therapies: id } },
       );
       try {
         await User.updateMany(
           { therapiesFav: id },
-          { $pull: { therapiesFav: id } }
+          { $pull: { therapiesFav: id } },
         );
         return res.status(200).json("Error solved");
       } catch (error) {

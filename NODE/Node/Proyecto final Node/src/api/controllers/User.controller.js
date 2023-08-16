@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const { deleteImgCloudinary } = require("../../middleware/files.middleware");
 const randomCode = require("../../utils/randomCode");
 const bcrypt = require("bcrypt");
@@ -10,6 +11,7 @@ const randomPassword = require("../../utils/randomPassword");
 const Disorder = require("../models/Disorder.model");
 const Therapy = require("../models/Therapy.model");
 const validator = require("validator");
+const setError = require("../helpers/setError");
 
 //! Registro (SIGNIN)
 
@@ -24,7 +26,7 @@ const registerSlow = async (req, res, next) => {
 
     const userExist = await User.findOne(
       { email: req.body.email },
-      { name: req.body.name }
+      { name: req.body.name },
     );
 
     if (!userExist) {
@@ -220,7 +222,7 @@ const changePassword = async (req, res, next) => {
     if (userDB) {
       return res.redirect(
         307,
-        `http://localhost:8080/api/v1/users/sendPassword/${userDB._id}`
+        `http://localhost:8080/api/v1/users/sendPassword/${userDB._id}`,
       );
     } else {
       return res.status(404).json("User no register");
@@ -505,7 +507,7 @@ const numbDisorders = async (req, res, next) => {
   try {
     const userMoreDisorder = await User.find();
     userMoreDisorder.sort(
-      (a, b) => b.disordersHas.length - a.disordersHas.length
+      (a, b) => b.disordersHas.length - a.disordersHas.length,
     );
     return res.status(200).json(userMoreDisorder);
   } catch (error) {
@@ -519,12 +521,12 @@ const therapies5Fav = async (req, res, next) => {
   try {
     const favTherapyOrdened = await User.find();
     favTherapyOrdened.sort(
-      (a, b) => b.therapiesFav.length - a.therapiesFav.length
+      (a, b) => b.therapiesFav.length - a.therapiesFav.length,
     );
     const top5Terapies = favTherapyOrdened.slice(0, 5);
-    return res.status(200).json(top5Terapies)
+    return res.status(200).json(top5Terapies);
   } catch (error) {
-    return res.status(404).json("Error adquiriendo top3 terapias")
+    return res.status(404).json("Error adquiriendo top3 terapias");
   }
 };
 
@@ -532,6 +534,7 @@ const therapies5Fav = async (req, res, next) => {
 
 const deleteUser = async (req, res, next) => {
   try {
+    // eslint-disable-next-line no-unused-vars
     const { _id, image } = req.user;
     await User.findByIdAndDelete(_id);
     try {
@@ -576,5 +579,5 @@ module.exports = {
   addFavTherapy,
   addHasDisorder,
   numbDisorders,
-  therapies5Fav
+  therapies5Fav,
 };

@@ -1,4 +1,4 @@
-const { isAuth, isAuthAdmin } = require("../../middleware/auth.middleware");
+const { isAuth } = require("../../middleware/auth.middleware");
 const { upload } = require("../../middleware/files.middleware");
 const {
   registerSlow,
@@ -14,7 +14,7 @@ const {
   addFavTherapy,
   addHasDisorder,
   numbDisorders,
-  therapies5Fav
+  therapies5Fav,
 } = require("../controllers/User.controller");
 
 const express = require("express");
@@ -44,9 +44,8 @@ UserRoutes.patch("/forgotpassword/forgotpassword", changePassword);
 
 UserRoutes.post("/check", checkNewUser);
 
-UserRoutes.get("/moredisorders", numbDisorders)
+UserRoutes.get("/moredisorders", numbDisorders);
 
-UserRoutes.get("/top5terapias", therapies5Fav)
-
+UserRoutes.get("/top5terapias", therapies5Fav);
 
 module.exports = UserRoutes;
