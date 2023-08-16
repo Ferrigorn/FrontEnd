@@ -1,0 +1,21 @@
+.title {
+  color: black;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.subtitle {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color:red;
+
+}
+
+.image {
+  width: 20vw;
+  height: 20vh;
+  border: 1px solid black;
+}
+
+.paragraph {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
