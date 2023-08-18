@@ -1,0 +1,37 @@
+.personaje {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+
+
+  .image {
+    width: 200px;
+    height: 200px;
+    border: 1px black solid;
+    border-radius: 10%;
+  }
+
+  .nombre{
+    color:darkblue;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  }
+
+  .status {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .span {
+    color:darkblue ;
+    font-style: oblique;
+  }
+
+}
+
+  
+
+ 
+
