@@ -1,0 +1,22 @@
+li{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+input {
+    width: 10rem;
+    height: 2rem;
+}
+
+img {
+    width: 400px;
+    height: 400px;
+}
+
+h1 {
+    color: crimson;
+}

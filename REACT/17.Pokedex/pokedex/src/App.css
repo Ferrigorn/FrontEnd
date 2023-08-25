@@ -1,0 +1,10 @@
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+    width: 100vw;
+    background-color: rgb(136,172,140);
+}
